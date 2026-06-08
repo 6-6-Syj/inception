@@ -24,7 +24,9 @@ services:
     container_name: nginx
     build: ./requirements/nginx # Dockerfile's path
     ports:
-      - "8080:80" # 8080:443 if HTTPS
+      - "8443:443" # 8443 -> machine : 443 -> container
+    environment:
+      - DOMAIN_NAME=${DOMAIN_NAME}
     depends_on:
       mariadb:
         condition: service_healthy
