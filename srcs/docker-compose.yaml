@@ -24,7 +24,7 @@ services:
     container_name: nginx
     build: ./requirements/nginx # Dockerfile's path
     ports:
-      - "8443:443" # 8443 -> machine : 443 -> container
+      - "443:443" # 8443 -> machine : 443 -> container
     environment:
       - DOMAIN_NAME=${DOMAIN_NAME}
     depends_on:
@@ -34,7 +34,7 @@ services:
     # networks:
     #   - inception
 
-secrets: 
+secrets:
   db_password:
     file: ../secrets/db_password.txt
   db_root_password:
