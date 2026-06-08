@@ -23,10 +23,10 @@ logs:
 	$(COMPOSE) logs -f
 
 shell-%:
-	terminator -e "$(COMPOSE) exec $* sh"
+	alacritty -e sh -c '$(COMPOSE) exec $* sh'
 
 check:
-	@if curl -fsSLk https://localhost:8443 | grep -q "66Syj"; then \
+	@if curl -fsSLk https://localhost:443 | grep -q "66Syj"; then \
 		echo "\033[32m[NGINX] Status: OK\033[0m"; \
 	else \
 		echo "\033[31m[NGINX] Status: KO\033[0m"; \
