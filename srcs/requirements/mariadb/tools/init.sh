@@ -14,6 +14,7 @@ set -e
 
 MYSQL_ROOT_PASSWORD=$(cat /run/secrets/db_root_password)
 MYSQL_PASSWORD=$(cat /run/secrets/db_password)
+MYSQL_USER=$(cat /run/secrets/mysql_user)
 
 if [ ! -d "/var/lib/mysql/mysql" ]; then
     rm -rf /var/lib/mysql/*

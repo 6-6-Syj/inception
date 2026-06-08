@@ -10,5 +10,4 @@ secrets/
 *.pdf
 .vscode
 
-# whats that
 .DS_Store

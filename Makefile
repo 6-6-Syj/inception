@@ -3,7 +3,7 @@ COMPOSE            = docker compose -f $(COMPOSE_FILE)
 
 all: up check
 
-up:
+up: create-volumes
 	@printf "Starting [MariaDB] ...\n"
 	$(COMPOSE) up -d --build --no-recreate
 
@@ -14,7 +14,7 @@ down:
 build-%:
 	$(COMPOSE) up -d --build $*
 
-re: down remove-all-existing-images up
+re: down remove-all-existing-images delete-volumes up
 
 remove-all-existing-images:
 	$(COMPOSE) down --rmi all
@@ -32,3 +32,10 @@ check:
 		echo "\033[31m[NGINX] Status: KO\033[0m"; \
 		exit 1; \
 	fi
+
+create-volumes:
+	mkdir -p ~/data/mysql ~/data/wordpress
+
+delete-volumes:
+	@sudo rm -rf ~/data/mysql
+	@sudo rm -rf ~/data/wordpress 
