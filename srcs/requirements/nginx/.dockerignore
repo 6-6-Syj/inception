@@ -1,0 +1,14 @@
+Makefile
+
+.git
+.gitignore
+.env
+
+secrets/
+
+*.md
+*.pdf
+.vscode
+
+# whats that
+.DS_Store

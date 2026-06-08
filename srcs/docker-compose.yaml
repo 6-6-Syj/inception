@@ -1,0 +1,39 @@
+services:
+  mariadb:
+    environment:
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+    secrets:
+      - db_password
+      - db_root_password
+    container_name: mariadb
+    build: ./requirements/mariadb
+    healthcheck:
+      test: ["CMD", "/usr/local/bin/healthcheck.sh"]
+      interval: 3s
+      timeout: 10s
+      retries: 10
+      start_period: 10s
+    restart: on-failure
+    # volumes:
+    #   - mariadb_data:/var/lib/mysql
+    # networks:
+    #   - inception
+
+  nginx:
+    container_name: nginx
+    build: ./requirements/nginx # Dockerfile's path
+    ports:
+      - "8080:80" # 8080:443 if HTTPS
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    restart: on-failure
+    # networks:
+    #   - inception
+
+secrets: 
+  db_password:
+    file: ../secrets/db_password.txt
+  db_root_password:
+    file: ../secrets/db_root_password.txt

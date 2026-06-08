@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Page Not Found</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: radial-gradient(circle at center, #1a1c24 0%, #0f1015 100%);
+            color: #f3f4f6;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+            position: relative;
+            padding: 2rem;
+        }
+
+        .error-code {
+            font-size: 10rem;
+            font-weight: 900;
+            line-height: 1;
+            background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 50px rgba(79, 172, 254, 0.3);
+        }
+
+        .error-title {
+            font-size: 2rem;
+            margin: 1rem 0 0.5rem 0;
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        .error-message {
+            color: #9ca3af;
+            font-size: 1.1rem;
+            margin-bottom: 2.5rem;
+            max-width: 400px;
+        }
+
+        .btn-home {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            font-weight: 600;
+            text-decoration: none;
+            color: #0f1015;
+            background: #00f2fe;
+            border-radius: 50px;
+            box-shadow: 0 4px 15px rgba(0, 242, 254, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .btn-home:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 242, 254, 0.6);
+            background: #ffffff;
+        }
+
+        /* @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.9; }
+            100% { transform: scale(1.03); opacity: 1; }
+        } */
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="error-code">404</div>
+        <h1 class="error-title">Lost in the Container?</h1>
+        <p class="error-message">The page you are looking for does not exist or has been moved into another namespace.</p>
+        <a href="/" class="btn-home">Back to Home</a>
+    </div>
+
+</body>
+</html>
