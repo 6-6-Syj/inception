@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 # COLORS
 RESET='\033[0m';
 CYAN='\033[0;36m';
@@ -9,8 +11,6 @@ BOLD='\033[1m';
 # PRINT
 printInfo()  { printf "${BOLD}${CYAN}[INFO] %s ${RESET}\n" "$*"; }
 printSuccess()  { printf "${BOLD}${GREEN}[DONE] %s ${RESET}\n" "$*"; }
-
-set -e
 
 MYSQL_ROOT_PASSWORD=$(cat /run/secrets/db_root_password)
 MYSQL_PASSWORD=$(cat /run/secrets/db_password)

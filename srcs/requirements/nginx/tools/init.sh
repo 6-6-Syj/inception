@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 # COLORS
 RESET='\033[0m';
 CYAN='\033[0;36m';

@@ -28,7 +28,8 @@ RUN apk add --no-cache \
         php83-session && \
     adduser -u 82 -D -S -G www-data www-data && \
     sed -i 's/memory_limit = 128M/memory_limit = 512M/g' /etc/php83/php.ini && \
-    mkdir -p /var/www/html/ && \
+    mkdir -p /var/www/html && \
+    mkdir -p /var/log/php83 && \
     chown -R www-data:www-data /var/log/php83
 
 EXPOSE 9000
