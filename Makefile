@@ -39,7 +39,7 @@ ps:
 	@$(COMPOSE) ps
 
 check:
-	srcs/requirements/nginx/tools/check.sh
+	@srcs/requirements/nginx/tools/check.sh
 
 status:
 	@printf "\n$(CYAN)Docker containers$(RESET)\n"

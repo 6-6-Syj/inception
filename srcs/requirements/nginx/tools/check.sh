@@ -9,6 +9,9 @@ GREEN='\033[0;32m'
 CYAN='\033[0;36m'
 RESET='\033[0m'
 
+printf "${CYAN}Checking for NGINX...${RESET}\n"
+
+sleep 2
 if curl -kLs https://$DOMAIN_NAME | grep -q "$WP_TITLE"; then
     printf "${GREEN}✓ NGINX OK${RESET}\n"
 else
