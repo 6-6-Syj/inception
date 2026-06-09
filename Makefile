@@ -57,10 +57,6 @@ build-%:
 	@printf "$(CYAN)🔨 Rebuilding $*...$(RESET)\n"
 	@$(COMPOSE) up -d --build $*
 
-restart-%:
-	@printf "$(CYAN)🔄 Restarting $*...$(RESET)\n"
-	@$(COMPOSE) restart $*
-
 shell-%:
 	@docker exec -it $* sh
 

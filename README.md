@@ -103,20 +103,12 @@ make build-wordpress
 make build-mariadb
 ```
 
-Restart a specific service:
-```bash
-make restart-nginx
-make restart-wordpress
-make restart-mariadb
-```
-
 Open a shell inside a running container:
 ```bash
 make shell-nginx
 make shell-wordpress
 make shell-mariadb
 ```
-
 
 ### Access the website
 
