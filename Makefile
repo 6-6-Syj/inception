@@ -7,27 +7,30 @@ CYAN   := \033[0;36m
 YELLOW := \033[1;33m
 RESET  := \033[0m
 
-.PHONY: all up down re clean fclean logs ps check help \
+.PHONY: all up down re clean fclean build logs ps check help \
 create-volumes delete-volumes
 
-all: up check
+all: build up
 
 up: create-volumes
-	@$(COMPOSE) up -d --build
+	@$(COMPOSE) up -d
 	@printf "$(GREEN)✓ Stack started$(RESET)\n"
 
 down:
 	@printf "$(YELLOW)🛑 Stopping containers...$(RESET)\n"
 	@$(COMPOSE) down
 
-re: fclean all
+build:
+	@$(COMPOSE) build
 
-clean:
-	@printf "$(YELLOW)🧹 Cleaning containers...$(RESET)\n"
-	@$(COMPOSE) down
+re: down up
+
+clean: down
+	@printf "$(YELLOW)🧹 Cleaning containers & anonymous volumes...$(RESET)\n"
+	@$(COMPOSE) down --volumes --remove-orphans
 
 fclean:
-	@printf "$(RED)💥 Full cleanup...$(RESET)\n"
+	@printf "$(RED)💥 Full cleanup (Data will be lost!)...$(RESET)\n"
 	@$(COMPOSE) down --rmi all --volumes --remove-orphans
 	@sudo rm -rf $$HOME/data/mysql
 	@sudo rm -rf $$HOME/data/wordpress
@@ -55,25 +58,22 @@ delete-volumes:
 
 build-%:
 	@printf "$(CYAN)🔨 Rebuilding $*...$(RESET)\n"
-	@$(COMPOSE) up -d --build $*
+	@$(COMPOSE) build $*
 
 shell-%:
 	@docker exec -it $* sh
 
 help:
-	@printf "\n$(CYAN)Available targets$(RESET)\n\n"
-	@printf "  make up          Start stack\n"
+	@printf "\n$(CYAN)Available targets:$(RESET)\n"
+	@printf "  make all         Build (if needed) and start stack\n"
+	@printf "  make up          Start stack (no rebuild)\n"
 	@printf "  make down        Stop stack\n"
-	@printf "  make re          Full rebuild\n"
-	@printf "  make clean       Stop containers\n"
+	@printf "  make re          Restart stack (keep data)\n"
+	@printf "  make build       Force rebuild images\n"
+	@printf "  make clean       Stop containers & remove anonymous volumes\n"
 	@printf "  make fclean      Remove everything\n"
 	@printf "  make logs        Follow logs\n"
 	@printf "  make ps          Compose status\n"
 	@printf "  make status      Docker status\n"
 	@printf "  make check       Check nginx\n"
-	@printf "  make shell-nginx\n"
-	@printf "  make shell-wordpress\n"
-	@printf "  make shell-mariadb\n"
-	@printf "  make build-nginx\n"
-	@printf "  make build-wordpress\n"
-	@printf "  make build-mariadb\n\n"
+	@printf "  make shell-[]    Open shell (e.g. make shell-nginx)\n\n"

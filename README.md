@@ -42,7 +42,7 @@ The following architectural decisions were made based on the comparison of core 
 | **Resources** | Heavy | Lightweight |
 | **Boot Time** | Slow | Instant |
 
-Docker was chosen to maximize resource efficiency and facilitate rapid deployment and iteration, which fits the project's educational goals of service orchestration.
+Docker maximize resource efficiency and facilitate rapid deployment and iteration.
 
 ---
 
