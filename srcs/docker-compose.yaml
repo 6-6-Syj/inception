@@ -24,7 +24,7 @@ services:
     container_name: nginx
     build: ./requirements/nginx
     ports:
-      - "443:443" # machine : container
+      - "8443:443" # machine : container
     environment:
       - DOMAIN_NAME=${DOMAIN_NAME}
     healthcheck:
@@ -92,7 +92,6 @@ volumes:
 
 networks:
   inception:
-    driver: bridge
 
 secrets:
   db_password:
