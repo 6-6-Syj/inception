@@ -28,7 +28,7 @@ services:
     environment:
       - DOMAIN_NAME=${DOMAIN_NAME}
     healthcheck:
-      test: ["CMD", "pidof", "nginx"]
+      test: ["CMD", "curl", "-fk", "https://${DOMAIN_NAME}"]
       interval: 5s
       timeout: 5s
       retries: 5

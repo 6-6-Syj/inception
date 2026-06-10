@@ -23,8 +23,10 @@ down:
 build:
 	@$(COMPOSE) build
 
-re: down up
+re: down up check
 
+re-re: fclean up check
+	
 clean: down
 	@printf "$(YELLOW)🧹 Cleaning containers & anonymous volumes...$(RESET)\n"
 	@$(COMPOSE) down --volumes --remove-orphans
@@ -64,16 +66,16 @@ shell-%:
 	@docker exec -it $* sh
 
 help:
-	@printf "\n$(CYAN)Available targets:$(RESET)\n"
-	@printf "  make all         Build (if needed) and start stack\n"
-	@printf "  make up          Start stack (no rebuild)\n"
-	@printf "  make down        Stop stack\n"
-	@printf "  make re          Restart stack (keep data)\n"
-	@printf "  make build       Force rebuild images\n"
-	@printf "  make clean       Stop containers & remove anonymous volumes\n"
-	@printf "  make fclean      Remove everything\n"
-	@printf "  make logs        Follow logs\n"
-	@printf "  make ps          Compose status\n"
-	@printf "  make status      Docker status\n"
-	@printf "  make check       Check nginx\n"
-	@printf "  make shell-[]    Open shell (e.g. make shell-nginx)\n\n"
+	@printf "$(YELLOW)Available:\n$(RESET)"
+	@printf "  $(CYAN)make all$(RESET)         Build (if needed) and start stack\n"
+	@printf "  $(CYAN)make up$(RESET)          Start stack (no rebuild)\n"
+	@printf "  $(CYAN)make down$(RESET)        Stop stack\n"
+	@printf "  $(CYAN)make re$(RESET)          Restart stack (keep data)\n"
+	@printf "  $(CYAN)make build$(RESET)       Force rebuild images\n"
+	@printf "  $(CYAN)make clean$(RESET)       Stop containers & remove anonymous volumes\n"
+	@printf "  $(CYAN)make fclean$(RESET)      Remove everything\n"
+	@printf "  $(CYAN)make logs$(RESET)        Follow logs\n"
+	@printf "  $(CYAN)make ps$(RESET)          Compose status\n"
+	@printf "  $(CYAN)make status$(RESET)      Docker status\n"
+	@printf "  $(CYAN)make check$(RESET)       Check nginx\n"
+	@printf "  $(CYAN)make shell-[]$(RESET)    Open shell (e.g. make shell-nginx)\n"
