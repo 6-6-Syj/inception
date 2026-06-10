@@ -1,194 +1,152 @@
-*This project has been created as part of the 42 curriculum by **jmagand*** <hr>
+> *This project has been created as part of the 42 curriculum by **jmagand***
 
-# Inception
+# 🌪️ Inception
 
-## Description
+## 📋 Description
 
-Inception is a system administration project focused on building a small Docker-based infrastructure from scratch. The goal is to deploy a secure and reproducible stack composed of multiple isolated containers that work together to host a WordPress website backed by MariaDB, with NGINX acting as the entry point.
+**Inception** is a system administration project focused on building a small Docker-based infrastructure from scratch. The goal is to deploy a secure and reproducible stack composed of multiple isolated containers that work together to host a **WordPress** website backed by **MariaDB**, with **NGINX** acting as the entry point.
 
-This project is meant to teach how to design, build, and manage a containerized environment while respecting strict security and architecture rules. It also introduces key concepts such as Docker networking, persistent storage, environment variables, and secrets management.
+This project is meant to teach how to design, build, and manage a containerized environment while respecting strict security and architecture rules. It also introduces key concepts such as:
 
-### Main services
+- 🌐 Docker networking
+- 💾 Persistent storage
+- 🔧 Environment variables
+- 🔐 Secrets management
 
-The stack usually includes:
-- NGINX, used as the HTTPS reverse proxy and public entry point.
-- WordPress, used as the website CMS.
-- MariaDB, used as the database server.
-- Optional additional services depending on the subject version, such as FTP or extra tools if required.
+---
 
-## Instructions
+## 🛠 Docker & Sources
+
+The project utilizes **Docker** and **Docker Compose** to orchestrate the infrastructure. The source code is organized within the `srcs/` directory, which contains the configuration files and Dockerfiles for each service.
+
+### Main Design Choices
+
+| Component | Choice | Reason |
+|-----------|--------|--------|
+| **Base Image** | Alpine Linux | Minimize image size and attack surface |
+| **Orchestration** | Docker Compose | Simplify linking of services (NGINX, WordPress, MariaDB) |
+| **Security** | TLS/SSL | NGINX handles HTTPS traffic using self-signed certificates generated at startup |
+
+---
+
+## ⚖ Technology Comparisons
+
+The following architectural decisions were made based on the comparison of core technologies:
+
+### Virtual Machines vs Docker
+
+| Aspect | Virtual Machines (VMs) | Docker |
+|--------|----------------------|--------|
+| **Virtualization** | Hardware (complete Guest OS) | OS (sharing host kernel) |
+| **Isolation** | Strong | Good |
+| **Resources** | Heavy | Lightweight |
+| **Boot Time** | Slow | Instant |
+
+Docker was chosen to maximize resource efficiency and facilitate rapid deployment and iteration, which fits the project's educational goals of service orchestration.
+
+---
+
+### Secrets vs Environment Variables
+
+| Aspect | Environment Variables | Docker Secrets |
+|--------|---------------------|----------------|
+| **Storage** | Configuration files / process lists | Mounted files in container RAM |
+| **Security** | Less secure (can leak via logs) | Never exposed in env variable list |
+| **Exposure** | Logs, inspection commands | RAM-only, file-based |
+
+For this project, sensitive data (like DB passwords) is handled via specific secrets files or `.env` protection strategies to simulate best security practices, avoiding hardcoding credentials in Dockerfiles.
+
+---
+
+### Docker Network vs Host Network
+
+| Aspect | Host Network | Docker Network (Bridge) |
+|--------|-------------|------------------------|
+| **Isolation** | None (direct host interface) | Isolated layer |
+| **Ports** | Port conflicts possible | Private via service names |
+| **Security** | Security risks | Services communicate privately |
+
+A custom Docker Bridge network is used to ensure services (like WordPress and MariaDB) can communicate privately, while only NGINX exposes specific ports to the outside world.
+
+---
+
+### Docker Volumes vs Bind Mounts
+
+| Aspect | Bind Mounts | Docker Volumes |
+|--------|------------|----------------|
+| **Mapping** | Host file/directory direct | Docker managed |
+| **Portability** | Depends on host OS structure | OS-agnostic |
+| **Backup** | Complex | Easy (`/var/lib/docker/volumes`) |
+
+Docker Volumes are used for database and website data to ensure data persists across container updates and remains portable across different host machines.
+
+---
+
+## 📖 Instructions
 
 ### Prerequisites
 
-Before running the project, you need:
-- Docker installed.
-- Docker Compose installed.
-- A Linux environment or compatible setup.
-- The repository cloned locally.
-- A valid `.env` file and any required secrets configured correctly.
+Before running the project, ensure you have:
 
-### Build and launch
-
-The Makefile uses the following Compose file:
-```text
-srcs/docker-compose.yaml
+```bash
+✅ Docker Engine installed
+✅ Docker Compose plugin installed
+✅ Linux environment
+✅ Repository cloned locally
+✅ Valid .env file + required secrets configured correctly
 ```
 
-To build and start the full stack:
+### Installation & Compilation
+
+The Docker images must be built:
+
+**Build and start the full stack:**
+
 ```bash
 make
 ```
 
-This runs:
-- `make up`
-- `make check`
+This command executes the necessary `docker compose build` and `docker compose up` commands defined in the Makefile.
 
-The `up` target creates the required host directories and then launches the stack in detached mode with build enabled.
+### Execution
 
-### Stop the project
+1. **Start the project:**
 
-To stop the containers:
-```bash
-make down
-```
+   ```bash
+   make
+   ```
 
-This stops the stack without deleting images or volumes.
+2. **Verify it is running:**
+   Open your browser and navigate to the domain specified in your `.env` file (e.g., `https://jmagand.42.fr`). You should see the WordPress setup page (or the site if already initialized). ✅
 
-### Full rebuild
+3. **Stop the project:**
 
-To fully recreate the stack:
-```bash
-make re
-```
+   ```bash
+   make down
+   ```
 
-This runs a full cleanup and then starts everything again.
+---
 
-### Full cleanup
+## 📚 Resources
 
-To remove containers, images, volumes, and orphan containers:
-```bash
-make fclean
-```
+### Documentation & References
 
-This also removes the host data directories used for persistence:
-- `$$HOME/data/mysql`
-- `$$HOME/data/wordpress`
+| Resource | Link |
+|----------|------|
+| 📘 Docker Official Documentation | [docs.docker.com](https://docs.docker.com/) |
+| 📗 Docker Compose Reference | [docs.docker.com/compose/](https://docs.docker.com/compose/) |
+| 🌐 WordPress Administration | [wordpress.org/documentation](https://wordpress.org/documentation/article/administer-your-wordpress-site/) |
+| 🗄 MariaDB Knowledge Base | [mariadb.com/kb/](https://mariadb.com/kb/) |
 
-### Useful commands
+---
 
-Show logs:
-```bash
-make logs
-```
+### 🤖 Artificial Intelligence Usage
 
-Show Compose status:
-```bash
-make ps
-```
+AI tools (**ChatGPT**, **GitHub Copilot**) were utilized during the development of this project for the following specific tasks:
 
-Show Docker container status:
-```bash
-make status
-```
-
-Run the NGINX check script:
-```bash
-make check
-```
-
-Rebuild a specific service:
-```bash
-make build-nginx
-make build-wordpress
-make build-mariadb
-```
-
-Open a shell inside a running container:
-```bash
-make shell-nginx
-make shell-wordpress
-make shell-mariadb
-```
-
-### Access the website
-
-Once the stack is running, open the domain configured in your `.env` file.  
-The website must be accessed through HTTPS, since NGINX is responsible for handling secure traffic and forwarding requests to the WordPress container.
-
-### Access the administration panel
-
-The WordPress administration panel is usually available at:
-```text
-https://your-domain/wp-admin
-```
-This is the standard WordPress admin path used to log in and manage the site content.
-
-## Project design
-
-### Docker architecture
-
-Each service runs in its own container to keep the stack isolated, reproducible, and easy to manage. Docker Compose is used to orchestrate the services, define their network, and connect the required volumes.
-
-This approach makes the project easier to rebuild and to move across environments without changing the application logic. It also matches the educational goal of understanding system administration through containerized services.
-
-### Virtual Machines vs Docker
-
-Virtual Machines emulate a full operating system, which makes them heavier and slower to start. Docker shares the host kernel and runs applications in isolated containers, which makes it lighter and faster for this kind of infrastructure project. For Inception, Docker is the better fit because the objective is to learn service isolation, orchestration, and deployment efficiency.
-
-### Secrets vs Environment Variables
-
-Environment variables are useful for non-sensitive configuration such as the domain name, database name, or site title. Secrets should be used for sensitive values such as passwords, tokens, certificates, and private keys. Docker docs explicitly warn against storing sensitive data in Dockerfiles or exposing it through environment variables when a secret mechanism is available.
-
-### Docker Network vs Host Network
-
-A dedicated Docker network allows containers to communicate privately with one another while keeping the services isolated from the host. The host network exposes containers directly on the host network namespace, which reduces isolation and is generally not the best choice for this project. In Inception, a dedicated Docker network is preferred for cleanliness and security.
-
-### Docker Volumes vs Bind Mounts
-
-Docker volumes are managed by Docker and are the standard choice for persistent data such as database files and WordPress content. Bind mounts directly map a host directory into the container, which can be useful for development but is less portable and more dependent on the host filesystem. For Inception, volumes are generally the best fit for persistent application data.
-
-## Configuration
-
-### `.env`
-
-The `.env` file should contain the project configuration values required at runtime. Typical examples include:
-- `DOMAIN_NAME`
-- `MYSQL_DATABASE`
-- `WP_TITLE`
-
-Sensitive data such as passwords and tokens must not be committed to the repository and should be handled according to the project rules.
-
-### Secrets
-
-Any confidential information should be stored outside the codebase and exposed only to the services that need it. Docker Compose secrets are mounted inside the container and provide a safer way to handle sensitive values than plain environment variables.
-
-## Runtime checks
-
-To verify that the services are running:
-```bash
-docker ps
-```
-
-To inspect logs:
-```bash
-docker compose logs -f
-```
-
-To test the stack manually:
-- Check that NGINX answers over HTTPS.
-- Verify that WordPress loads correctly.
-- Confirm that MariaDB is running.
-- Restart the stack and ensure data persists.
-
-## Resources
-
-### Documentation
-- [Docker Documentation](https://docs.docker.com/)
-- [Docker Compose Documentation](https://docs.docker.com/compose/)
-- [Docker Networking](https://docs.docker.com/engine/network/drivers/)
-- [Docker Volumes](https://docs.docker.com/reference/compose-file/volumes/)
-- [WordPress Documentation](https://wordpress.org/documentation/)
-- [Alpine Documentation](https://wiki.alpinelinux.org/wiki/MariaDB)
-
-### AI usage
-AI was used to help draft and structure this README, improve the English wording, and organize the technical comparisons required by the project. AI also helped me to understand clearlier this project.
+| Task | AI Usage |
+|------|----------|
+| 📝 **Drafting Documentation** | Assisted in structuring `README.md`, `USER_DOC.md`, and `DEV_DOC.md` for clarity and completeness |
+| 🔧 **Debugging Configuration** | Helped troubleshoot NGINX configuration syntax and SSL certificate generation errors |
+| 📋 **Docker Compose Syntax** | Provided examples for volume definitions and network aliases to ensure correct service discovery |
+| 💻 **Bash Scripting** | Assisted in writing setup scripts used in Dockerfiles to automate dependency installation |
