@@ -48,7 +48,7 @@ check:
 
 status:
 	@printf "\n$(CYAN)Docker containers$(RESET)\n"
-	@docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
+	@ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
 
 create-volumes:
 	@mkdir -p $$HOME/data/mysql

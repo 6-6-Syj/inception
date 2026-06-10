@@ -51,23 +51,9 @@ The project uses a `Makefile` to abstract complex Docker commands.
 
 ### 🔨 Build Process
 
-To build the Docker images from the `Dockerfile` located in each service folder (`srcs/nginx`, `srcs/wordpress`, `srcs/mariadb`):
+Simply run `make` to build and start immediately. ✅
 
-```bash
-make build
-```
-
-> *Or simply run `make` to build and start immediately.* ✅
-
-### 🚀 Launching the Stack
-
-To start the containers in detached mode:
-
-```bash
-make up
-```
-
-This creates the Docker network and volumes (if they don't exist) and starts the services.
+It creates the Docker network and volumes, build images and containers (if they don't exist) and starts the services.
 
 ### 🔄 Development Cycle
 
@@ -90,19 +76,9 @@ If you change source code (e.g., modify `nginx.conf` or a PHP script):
 | `make shell-wordpress` | Enter WordPress container shell (debugging) |
 | `make shell-mariadb` | Enter MariaDB container shell (debugging) |
 | `make fclean` | Remove containers, images, and **volumes** ⚠️ *Warning: This deletes all data* |
-| `make re` | Stop, clean, and rebuild everything from scratch |
-
-### 📋 Docker Compose Directives
-
-You can also use standard Docker Compose commands if the Makefile targets are insufficient:
-
-```bash
-docker compose ps
-docker compose logs -f [service_name]
-docker compose exec [service_name] sh
-```
-
----
+| `make re` | Stop containers, and rebuild if needed.  |
+| `make ps` | View running containers |
+| `make status` | View running containers (less info than ps) |
 
 ## 4️⃣ Data Persistence
 
@@ -110,7 +86,7 @@ Understanding where data is stored is crucial for debugging and backups.
 
 ### 💾 Storage Mechanism
 
-The project uses **Docker Volumes** (and possibly bind mounts depending on the specific implementation) to persist data so it survives container restarts. ✅
+The project uses **Bind mount** to persist data so it survives container restarts. ✅
 
 ### 📍 Locations
 

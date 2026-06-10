@@ -35,12 +35,14 @@ The following architectural decisions were made based on the comparison of core 
 
 ### Virtual Machines vs Docker
 
-| Aspect | Virtual Machines (VMs) | Docker |
-|--------|----------------------|--------|
-| **Virtualization** | Hardware (complete Guest OS) | OS (sharing host kernel) |
-| **Isolation** | Strong | Good |
-| **Resources** | Heavy | Lightweight |
-| **Boot Time** | Slow | Instant |
+| Aspect              | Virtual Machines (VMs)                                                                                | Docker                                                                                            |
+| ------------------- | ----------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| **What it virtualizes** | Hardware (runs a complete Guest OS)                                                                   | OS (shares the host kernel)                                                                       |
+| **Primary Use Case**    | Running multiple isolated OS environments, testing different operating systems, full system isolation | Running application services, microservices, and developmental environments with minimal overhead |
+| **Isolation Level**     | Strong (full OS separation)                                                                           | Good (process-level separation)                                                                   |
+| **Resource Usage**     | Heavy (each VM needs dedicated RAM, CPU, disk)                                                        | Lightweight (containers share host resources)                                                     |
+| **Boot Time**           | Slow (OS startup takes minutes)                                                                       | Fast (containers start in seconds)                                                                |
+| **Portability**         | Lower (OS-specific configurations)                                                                    | Higher (OS-agnostic, consistent across environments)                                              |
 
 Docker maximize resource efficiency and facilitate rapid deployment and iteration.
 

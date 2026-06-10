@@ -81,13 +81,11 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      o: bind
       device: ${HOME}/data/wordpress
   mariadb_data:
     driver: local
     driver_opts:
       type: none
-      o: bind
       device: ${HOME}/data/mysql
 
 networks:
