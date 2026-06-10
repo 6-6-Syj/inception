@@ -51,7 +51,7 @@ if ! wp core is-installed --allow-root 2>/dev/null; then
 
     printInfo "Installing WordPress..."
 
-    # URL redirection wordpress (:8443)
+    # URL redirection wordpress (:port)
     wp core install \
         --url="${DOMAIN_NAME}" \
         --title="${WP_TITLE}" \
