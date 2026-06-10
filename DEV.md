@@ -76,7 +76,7 @@ If you change source code (e.g., modify `nginx.conf` or a PHP script):
 | `make shell-wordpress` | Enter WordPress container shell (debugging) |
 | `make shell-mariadb` | Enter MariaDB container shell (debugging) |
 | `make fclean` | Remove containers, images, and **volumes** ⚠️ *Warning: This deletes all data* |
-| `make re` | Stop containers, and rebuild if needed.  |
+| `make re` | Stop containers, and rebuild if needed. |
 | `make ps` | View running containers |
 | `make status` | View running containers (less info than ps) |
 
@@ -86,37 +86,59 @@ Understanding where data is stored is crucial for debugging and backups.
 
 ### 💾 Storage Mechanism
 
-The project uses **Bind mount** to persist data so it survives container restarts. ✅
+The project uses **Docker Volumes** to persist data so it survives container restarts. ✅
 
 ### 📍 Locations
 
 | Data Type | Volume Name | Alternative Path |
 |-----------|-------------|------------------|
-| **Database Data** | `db_data` | `$HOME/data/mysql` |
-| **Website Files** | `wp_data` | `$HOME/data/wordpress` |
+| **Database Data** | `mariadb_data` | `$HOME/data/mysql` |
+| **Website Files** | `wordpress_data` | `$HOME/data/wordpress` |
 
 WordPress files (uploads, plugins) and MariaDB data persist across container updates.
 
 ### 🔍 How to Inspect Data
 
-To inspect the contents of a volume (e.g., to see database files):
+To inspect the contents of your persistent data (e.g., to see database files or WordPress uploads):
 
-#### 1. Identify the volume
+#### Option 1: From your host machine (simplest)
+
+Since your project uses **named volumes with custom device paths**, data is stored directly in these directories on your host machine:
+
+| Service | Data Path on Host |
+|---------|-------------------|
+| **MariaDB** | `$HOME/data/mysql` |
+| **WordPress** | `$HOME/data/wordpress` |
 
 ```bash
-docker volume ls
+# View MariaDB database files
+ls $HOME/data/mysql
+
+# View WordPress files (uploads, plugins, etc.)
+ls $HOME/data/wordpress/wp-content/uploads
 ```
 
-#### 2. Run a temporary container mounting that volume
+#### Option 2: Inside a container
+
+Use the `make shell-<service>` command to enter any container directly:
 
 ```bash
-docker run -it --rm -v <volume_name>:/data alpine sh
+make shell-mariadb    # Enter MariaDB container
+make shell-wordpress  # Enter WordPress container
+make shell-nginx      # Enter NGINX container
 ```
 
-#### 3. Navigate to view files
+Inside the shell, navigate to the container's data paths:
 
-Inside the shell, navigate to `/data` to view the files:
+| Service | Data Path in Container |
+|---------|------------------------|
+| **MariaDB** | `/var/lib/mysql` |
+| **WordPress** | `/var/www/html` |
 
 ```sh
-ls /data
+# Inside MariaDB container
+ls /var/lib/mysql
+
+# Inside WordPress container
+ls /var/www/html/wp-content/uploads
 ```
